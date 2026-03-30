@@ -142,6 +142,7 @@ module.exports = {
           priority: -10,
           /**
            * 如果已经存在一个符合条件的 chunk，则复用它
+           * （作用不明，构造测试场景失败，暂时忽略）
            * 
            * 参考：https://github.com/webpack/webpack.js.org/issues/2122#issuecomment-388609306
            */
