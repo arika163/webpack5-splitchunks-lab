@@ -125,14 +125,14 @@ module.exports = {
            * 
            * 测试值：'vendors' 返回相同字符串的函数 返回不同字符串的函数 false
            */
-          // name: function (module, chunks, cacheGroupKey) {
-          //   const chunkNames = Array.from(chunks)
-          //     .map(chunk => chunk.name)
-          //     .filter(Boolean)
-          //     .join('~')
+          name: function (module, chunks, cacheGroupKey) {
+            const chunkNames = Array.from(chunks)
+              .map(chunk => chunk.name)
+              .filter(Boolean)
+              .join('~')
 
-          //   return `vendors~${chunkNames}`;
-          // }, 
+            return `vendors~${chunkNames}`;
+          }, 
           /**
            * 优先级：当一个模块同时匹配多个 cache group 时，priority 更大的组优先处理（higher wins）。
            * 这里是 -10（较低优先级）。默认规则里通常会有 defaultVendors（优先级较高）和 default（较低）。
@@ -141,22 +141,21 @@ module.exports = {
            */
           priority: -10,
           /**
-           * 如果已经存在一个符合条件的 chunk（之前被创建过），则复用它，而不是再创建一个新的 chunk。
-           * 这样能减少重复 chunk/重复代码，利于缓存命中。
+           * 如果已经存在一个符合条件的 chunk，则复用它
            * 
            * 参考：https://github.com/webpack/webpack.js.org/issues/2122#issuecomment-388609306
            */
           reuseExistingChunk: true
         },
         default: {
-          minChunks: 1,
+          minChunks: 2,
           name: function (module, chunks, cacheGroupKey) {
             const chunkNames = Array.from(chunks)
               .map(chunk => chunk.name)
               .filter(Boolean)
               .join('~')
 
-            return `common~${chunkNames}`;
+            return `${cacheGroupKey}~${chunkNames}`;
           },
           priority: -20,
           reuseExistingChunk: true
